@@ -47,7 +47,7 @@ class MusicExplorer:
     def compare_graph(self, df, song_id):
         n_graphs = self.X_count
         n_row = math.ceil(n_graphs / 4)
-        fig, axes = plt.subplots(nrows=n_row, ncols=4, figsize=(12, n_row * 3))
+        fig, axes = plt.subplots(nrows=n_row, ncols=4, figsize=(9, n_row * 2))
         axes = axes.flatten()
         temp = df[df[self.id_col] == song_id]
         if temp.empty:
@@ -64,8 +64,10 @@ class MusicExplorer:
             sns.histplot(data=df, x=v, ax=ax, kde=True)
             ax.axvline(x=temp[v].values[0], color='red', linestyle='--', linewidth=1.5)
             ax.set_title(v)
+            ax.set_xlabel("")
         for ax in axes[n_graphs:]:
             ax.set_visible(False)
+        plt.tight_layout()
         st.pyplot(fig)
 
     def top_songs(self, n=3, kind="obvious"):
