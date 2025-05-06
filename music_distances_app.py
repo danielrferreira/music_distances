@@ -20,11 +20,13 @@ st.sidebar.markdown("---")
 tab1, tab2, tab3 = st.tabs(["Top Obvious", "Top Weird", "Pick by Vibe"])
 
 with tab1:
+    st.subheader("🎧 Pick how many musics:")
     n = st.number_input("Number of songs", min_value=1, max_value=10, value=3, step=1, key="obvious_input")
     if st.button("Show Top Obvious Songs"):
         explorer.top_songs(n=n, kind="obvious")
 
 with tab2:
+    st.subheader("🎧 Pick how many musics:")
     n = st.number_input("Number of songs", min_value=1, max_value=10, value=3, step=1, key="weird_input")
     if st.button("Show Top Weird Songs"):
         explorer.top_songs(n=n, kind="weird")
