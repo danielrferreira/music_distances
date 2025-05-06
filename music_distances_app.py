@@ -31,3 +31,4 @@ with tab2:
 
 with tab3:
     explorer.pick_music_by_vibe()
+    

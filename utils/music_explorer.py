@@ -85,10 +85,7 @@ class MusicExplorer:
         st.subheader("🎧 Pick music based on your vibe")
         user_options = []
         for col in self.X_cols:
-            if col in ['speechiness', 'acousticness', 'liveness']:
-                val = st.slider(col, min_value=0.01, max_value=1.0, value=0.1, step=0.01)
-            else:
-                val = st.slider(col, min_value=0.0, max_value=1.0, value=0.5, step=0.01)
+            val = st.slider(col, min_value=0.0, max_value=1.0, value=0.5, step=0.01)
             user_options.append(val)
 
         if st.button("🎶 Suggest a Song"):
@@ -107,5 +104,5 @@ class MusicExplorer:
             spotify_uri = closest['uri']
             track_id = spotify_uri.split("spotify:track:")[1]
             link_url = f"https://open.spotify.com/track/{track_id}"
-            st.markdown(f"### 🎵 Closest match: [{song} by {singer}]({link_url})")
+            st.markdown(f"### 🎵 Closest match:")
             self.compare_graph(df, closest[self.id_col])
