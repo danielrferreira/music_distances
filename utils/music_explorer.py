@@ -50,16 +50,12 @@ class MusicExplorer:
         fig, axes = plt.subplots(nrows=n_row, ncols=4, figsize=(9, n_row * 2))
         axes = axes.flatten()
         temp = df[df[self.id_col] == song_id]
-        if temp.empty:
-            st.warning("No song found.")
-            return
         song = temp['song'].values[0]
         singer = temp['band_singer'].values[0]
         spotify_uri = temp['uri'].values[0]
         track_id = spotify_uri.split("spotify:track:")[1]
         link_url = f"https://open.spotify.com/track/{track_id}"
-        st.markdown(f"### [{song} by {singer}]({link_url})")
-
+        title = f"### [{song} by {singer}]({link_url})"
         for v, ax in zip(self.X_cols, axes):
             sns.histplot(data=df, x=v, ax=ax, kde=True)
             ax.axvline(x=temp[v].values[0], color='red', linestyle='--', linewidth=1.5)
@@ -68,7 +64,7 @@ class MusicExplorer:
         for ax in axes[n_graphs:]:
             ax.set_visible(False)
         plt.tight_layout()
-        st.pyplot(fig)
+        return title, fig
 
     def top_songs(self, n=3, kind="obvious"):
         df = self.dev_from_mean_df if self.dev_from_mean_df is not None else self.calculate_dev_from_mean()
@@ -79,16 +75,15 @@ class MusicExplorer:
             selected = df.tail(n).sort_values('obviouness')
             st.subheader(f"Top {n} songs farther from the center")
         for idx, row in selected.iterrows():
-            self.compare_graph(df, row[self.id_col])
+            title, fig = self.compare_graph(df, row[self.id_col])
+            st.markdown(title)
+            st.pyplot(fig)
 
     def pick_music_by_vibe(self):
         st.subheader("🎧 Pick music based on your vibe")
         user_options = []
         for col in self.X_cols:
-            if col in ['speechiness', 'acousticness', 'liveness']:
-                val = st.slider(col, min_value=0.01, max_value=1.0, value=0.1, step=0.01)
-            else:
-                val = st.slider(col, min_value=0.0, max_value=1.0, value=0.5, step=0.01)
+            val = st.slider(col, min_value=0.0, max_value=1.0, value=0.5, step=0.01)
             user_options.append(val)
 
         if st.button("🎶 Suggest a Song"):
@@ -102,10 +97,9 @@ class MusicExplorer:
             distances = np.linalg.norm(X_scaled - user_options, axis=1)
             df['distance_from_user'] = distances
             closest = df.sort_values('distance_from_user').iloc[0]
-            song = closest['song']
-            singer = closest['band_singer']
-            spotify_uri = closest['uri']
-            track_id = spotify_uri.split("spotify:track:")[1]
-            link_url = f"https://open.spotify.com/track/{track_id}"
-            st.markdown(f"### 🎵 Closest match: [{song} by {singer}]({link_url})")
-            self.compare_graph(df, closest[self.id_col])
+            st.markdown(f"### 🎵 Closest match:")
+            title, fig = self.compare_graph(df, closest[self.id_col])
+            st.markdown(title)
+            st.pyplot(fig)
+
+
