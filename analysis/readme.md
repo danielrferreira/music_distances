@@ -1,0 +1,1 @@
+This folder contains some analysis I am doing before implementing new features
