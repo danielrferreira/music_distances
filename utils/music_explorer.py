@@ -19,20 +19,29 @@ class MusicExplorer:
         self.id_col = id_col
         self.X_count = len(X_cols)
         self.df = None
+        self.df_no_miss = None
         self.dev_from_mean_df = None
     
     def data_loader(self):
         df = pd.read_csv(self.file_path)
-        df = df.dropna(subset=[self.X_cols[0]])
         df = df.drop_duplicates(subset=self.id_col, keep='first')
         self.df = df
         return df
 
-    def calculate_dev_from_mean(self):
+    def no_miss(self):
         if self.df is None:
             df = self.data_loader()
         else:
             df = self.df
+        df = df.dropna(subset=[self.X_cols[0]])
+        self.df_no_miss = df
+        return df
+
+    def calculate_dev_from_mean(self):
+        if self.df_no_miss is None:
+            df = self.no_miss()
+        else:
+            df = self.df_no_miss
         X = df[self.X_cols]
         scaler = MinMaxScaler()
         X_scaled = scaler.fit_transform(X)
