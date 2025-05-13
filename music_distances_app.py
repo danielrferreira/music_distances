@@ -12,16 +12,6 @@ st.markdown("---")
 
 explorer = MusicExplorer()
 
-if st.sidebar.button("Load Data"):
-    explorer.data_loader()
-    st.success("Data loaded successfully.")
-
-if st.sidebar.button("Calculate Distances"):
-    explorer.calculate_dev_from_mean()
-    st.success("Distances calculated.")
-
-st.sidebar.markdown("---")
-
 tab1, tab2, tab3 = st.tabs(["Top Obvious", "Top Weird", "Pick by Feature"])
 
 with tab1:
