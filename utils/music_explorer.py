@@ -18,30 +18,16 @@ class MusicExplorer:
         self.lyric_col = lyric_col
         self.id_col = id_col
         self.X_count = len(X_cols)
-        self.df = None
-        self.df_no_miss = None
-        self.dev_from_mean_df = None
-    
-    def data_loader(self):
         df = pd.read_csv(self.file_path)
         df = df.drop_duplicates(subset=self.id_col, keep='first')
-        self.df = df
-        return df
-
-    def no_miss(self):
-        if self.df is None:
-            df = self.data_loader()
-        else:
-            df = self.df
-        df = df.dropna(subset=[self.X_cols[0]])
-        self.df_no_miss = df
-        return df
+        self.df = df.copy()
+        self.df_no_miss = df.dropna(subset=[self.X_cols[0]])
+        self.dev_from_mean_df = None
+        self.band_singer = self.df['band_singer'].unique()
+    
 
     def calculate_dev_from_mean(self):
-        if self.df_no_miss is None:
-            df = self.no_miss()
-        else:
-            df = self.df_no_miss
+        df = self.df_no_miss
         X = df[self.X_cols]
         scaler = MinMaxScaler()
         X_scaled = scaler.fit_transform(X)
@@ -110,5 +96,9 @@ class MusicExplorer:
             title, fig = self.compare_graph(df, closest[self.id_col])
             st.markdown(title)
             st.pyplot(fig)
+    
+    def artists(self):
+        return self.band_singer
+        
 
 
