@@ -12,7 +12,7 @@ st.markdown("---")
 
 explorer = MusicExplorer()
 
-tab1, tab2, tab3 = st.tabs(["Top Obvious", "Top Weird", "Pick by Feature"])
+tab1, tab2, tab3, tab4 = st.tabs(["Top Obvious", "Top Weird", "Pick by Feature", "Lyrics Distance"])
 
 with tab1:
     n = st.number_input("Number of songs", min_value=1, max_value=10, value=3, step=1, key="obvious_input")
@@ -26,4 +26,11 @@ with tab2:
 
 with tab3:
     explorer.pick_music_by_vibe()
+
+with tab4:
+    st.markdown("WIP")
+    st.markdown("---")
+    unique_values = explorer.artists()
+    selected_value = st.selectbox('Select a Band/Singer:', unique_values)
+
     
