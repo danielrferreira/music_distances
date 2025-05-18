@@ -36,8 +36,10 @@ with tab3:
 with tab4:
     st.markdown("Pick a song and see what is the closest lyric")
     st.markdown("---")
-    unique_values = explorer.artists()
-    selected_value = st.selectbox('Select a Band/Singer:', unique_values)
+    artist = st.selectbox('Select a Band/Singer:',explorer.band_singer)
+    _, songs = explorer.songs(artist)
+    song = st.selectbox('Select a Song:', songs)
+
     
 
     
