@@ -101,6 +101,3 @@ class MusicExplorer:
         songs_df = self.df[self.df['band_singer']==artist][['song','lyrics']].copy()
         songs_list = songs_df['song'].unique()
         return songs_df, songs_list
-        
-
-

@@ -37,8 +37,11 @@ with tab4:
     st.markdown("Pick a song and see what is the closest lyric")
     st.markdown("---")
     artist = st.selectbox('Select a Band/Singer:',explorer.band_singer)
-    _, songs = explorer.songs(artist)
+    songs_df, songs = explorer.songs(artist)
     song = st.selectbox('Select a Song:', songs)
+    lyric = songs_df[songs_df['song']== song]['lyrics'].iloc[0]
+    st.markdown(lyric)
+
 
     
 
