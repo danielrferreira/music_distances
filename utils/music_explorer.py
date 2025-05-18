@@ -97,8 +97,10 @@ class MusicExplorer:
             st.markdown(title)
             st.pyplot(fig)
     
-    def artists(self):
-        return self.band_singer
+    def songs(self,artist):
+        songs_df = self.df[self.df['band_singer']==artist][['song','lyrics']].copy()
+        songs_list = songs_df['song'].unique()
+        return songs_df, songs_list
         
 
 

@@ -15,22 +15,31 @@ explorer = MusicExplorer()
 tab1, tab2, tab3, tab4 = st.tabs(["Top Obvious", "Top Weird", "Pick by Feature", "Lyrics Distance"])
 
 with tab1:
+    st.markdown("This tab shows the musics that are closer to the center. Choose the number of songs")
+    st.markdown("---")
     n = st.number_input("Number of songs", min_value=1, max_value=10, value=3, step=1, key="obvious_input")
     if st.button("Show Top Obvious Songs"):
         explorer.top_songs(n=n, kind="obvious")
 
 with tab2:
+    st.markdown("This tab shows the musics that are far to the center. Choose the number of songs")
+    st.markdown("---")
     n = st.number_input("Number of songs", min_value=1, max_value=10, value=3, step=1, key="weird_input")
     if st.button("Show Top Weird Songs"):
         explorer.top_songs(n=n, kind="weird")
 
 with tab3:
+    st.markdown("Here you can use the sliders and then find the music closer to the selection")
+    st.markdown("---")
     explorer.pick_music_by_vibe()
 
 with tab4:
-    st.markdown("WIP")
+    st.markdown("Pick a song and see what is the closest lyric")
     st.markdown("---")
-    unique_values = explorer.artists()
-    selected_value = st.selectbox('Select a Band/Singer:', unique_values)
+    artist = st.selectbox('Select a Band/Singer:',explorer.band_singer)
+    _, songs = explorer.songs(artist)
+    song = st.selectbox('Select a Song:', songs)
+
+    
 
     
