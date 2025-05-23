@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+vectorizer = TfidfVectorizer(stop_words='english', max_features=100)
 
 class MusicExplorer:
     def __init__(self, file_path='data/input_df.csv',
@@ -24,8 +27,8 @@ class MusicExplorer:
         self.df_no_miss = df.dropna(subset=[self.X_cols[0]])
         self.dev_from_mean_df = None
         self.band_singer = self.df['band_singer'].unique()
+        self.lyrics_array = vectorizer.fit_transform(self.df_no_miss['lyrics']).toarray()
     
-
     def calculate_dev_from_mean(self):
         df = self.df_no_miss
         X = df[self.X_cols]
@@ -101,3 +104,6 @@ class MusicExplorer:
         songs_df = self.df[self.df['band_singer']==artist][['song','lyrics']].copy()
         songs_list = songs_df['song'].unique()
         return songs_df, songs_list
+    
+    def closest_lyrics(self, lyrics):
+        pass
