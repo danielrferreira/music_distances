@@ -40,15 +40,10 @@ with tab4:
     songs_df, songs = explorer.songs(artist)
     song = st.selectbox('Select a Song:', songs)
     lyric = songs_df[songs_df['song']== song]['lyrics'].iloc[0]
-    if "lyrics" not in st.session_state:
-        st.session_state.lyrics = lyric
     if st.button("Show Lyrics"):
+        st.markdown("## Original")
         st.markdown(lyric)
-        st.session_state.show_lyrics_clicked = True
-    if st.session_state.get("show_lyrics_clicked", False):
-        st.markdown(lyric)
-        if st.button("Show Closest Lyrics"):
-            st.markdown("WIP")
+        st.markdown("## Closest Lyric")
 
 
     
