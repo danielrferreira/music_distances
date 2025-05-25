@@ -8,6 +8,7 @@ import seaborn as sns
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 vectorizer = TfidfVectorizer(stop_words='english', max_features=100)
 
@@ -104,6 +105,11 @@ class MusicExplorer:
         songs_df = self.df[self.df['band_singer']==artist][['song','lyrics']].copy()
         songs_list = songs_df['song'].unique()
         return songs_df, songs_list
-    
-    def closest_lyrics(self, lyrics):
-        pass
+
+    def closest_lyrics_index(self, index):
+        music_array = self.lyrics_array[index].reshape(1, -1)
+        similarities = cosine_similarity(music_array, self.lyrics_array).flatten()
+        similarities[index] = 0
+        return np.argmax(similarities)
+
+        
