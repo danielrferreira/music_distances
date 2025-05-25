@@ -39,12 +39,14 @@ with tab4:
     artist = st.selectbox('Select a Band/Singer:',explorer.band_singer)
     songs_df, songs = explorer.songs(artist)
     song = st.selectbox('Select a Song:', songs)
-    lyric = songs_df[songs_df['song']== song]['lyrics'].iloc[0]
+    lyrics = songs_df[songs_df['song']== song]['lyrics'].iloc[0]
+    song_index = songs_df[songs_df['song'] == song].index[0]
+    closest_lyrics = explorer.closest_lyrics(song_index)
     if st.button("Show Lyrics"):
         st.markdown("## Original")
-        st.markdown(lyric)
+        st.markdown(lyrics)
         st.markdown("## Closest Lyric")
-        st.markdown("WIP")
+        st.markdown(closest_lyrics)
 
 
     

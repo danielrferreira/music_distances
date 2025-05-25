@@ -106,10 +106,12 @@ class MusicExplorer:
         songs_list = songs_df['song'].unique()
         return songs_df, songs_list
 
-    def closest_lyrics_index(self, index):
+    def closest_lyrics(self, index):
         music_array = self.lyrics_array[index].reshape(1, -1)
         similarities = cosine_similarity(music_array, self.lyrics_array).flatten()
         similarities[index] = 0
-        return np.argmax(similarities)
+        closest_index = np.argmax(similarities)
+        closest_lyric = self.df['lyrics'].iloc[closest_index]
+        return closest_lyric
 
         
